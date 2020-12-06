@@ -11,13 +11,11 @@ class BoletoLogic(Logic):
         boletoList = super().getAllRows(self.tableName)
         boletoObjList = []
         for element in boletoList:
-            newBoleto = self.createBoletoObj(element)
-            boletoObjList.append(newBoleto)
+            boletoObjList.append(element)
         return boletoObjList
 
     def createBoletoObj(
         self,
-        idboleto,
         tipo,
         fecha,
         hora,
@@ -25,28 +23,15 @@ class BoletoLogic(Logic):
         sala_idsala,
         peliculas_idpeliculas,
     ):
-        boletoObj = BoletoObj(
-            id,
-            tipo,
-            fecha,
-            hora,
-            compradetallada_idcompra,
-            sala_idsala,
-            peliculas_idpeliculas,
+        boletoDict = dict(
+            tipo=tipo,
+            fecha=fecha,
+            hora=hora,
+            compradetallada_idcompra=compradetallada_idcompra,
+            sala_idsala=sala_idsala,
+            peliculas_idpeliculas=peliculas_idpeliculas,
         )
-        return boletoObj
-
-    def createBoletoObj(self, boletoDict):
-        boletoObj = BoletoObj(
-            boletoDict["tipo"],
-            boletoDict["fecha"],
-            boletoDict["hora"],
-            boletoDict["compradetallada_idcompra"],
-            boletoDict["sala_idsala"],
-            boletoDict["peliculas_idpeliculas"],
-            boletoDict["idboleto"],
-        )
-        return boletoObj
+        return boletoDict
 
     def insertBoleto(
         self,
@@ -60,10 +45,10 @@ class BoletoLogic(Logic):
         database = self.database
         sql = (
             f"INSERT INTO `dbcine`.`boleto`(`idboleto`,`tipo`,`fecha`,`hora`, `compradetallada_idcompra`, `sala_idsala`, `peliculas_idpeliculas`) "
-            + f"VALUES(0,'{tipo}','{fecha}','{hora}','{compradetallada_idcompra}','{sala_idsala}','{peliculas_idpeliculas}');"
+            + f"VALUES(0,'{tipo}','{fecha}','{hora}',{compradetallada_idcompra},{sala_idsala},{peliculas_idpeliculas});"
         )
-        rows = database.executeNonQueryRows(sql)
-        return rows
+        row = database.executeNonQueryRows(sql)
+        return row
 
     def updateBoletoById(
         self,
@@ -78,11 +63,23 @@ class BoletoLogic(Logic):
         database = self.database
         sql = (
             "UPDATE `dbcine`.`boleto` "
-            + f"SET `boleto` = '{tipo}','{fecha}','{hora}','{compradetallada_idcompra}','{sala_idsala}','{peliculas_idpeliculas}' "
-            + f"WHERE `idboleto` = {id};"
+            + f"SET `tipo` = '{tipo}', `fecha` = '{fecha}', `hora` = '{hora}', `compradetallada_idcompra` = {compradetallada_idcompra},`sala_idsala` = {sala_idsala}, `peliculas_idpeliculas` = {peliculas_idpeliculas} "
+            + f"WHERE `idboleto` = {idboleto};"
         )
-        rows = database.executeNonQueryRows(sql)
-        return rows
+        row = database.executeNonQueryRows(sql)
+        return row
 
-    def deleteBoletoById(self, idboleto):
-        super().deleteRowById(id, self.tableName)
+    def getBoletoById(self, idboleto):
+        database = self.database
+        sql = "SELECT * FROM `dbcine`.`boleto` " + f"where idboleto ={idboleto};"
+        boletoDict = database.executeQueryOneRow(sql)
+        return boletoDict
+
+    def deleteBoletoById(self, idcompra):
+        database = self.database
+        sql = (
+            "DELETE FROM `dbcine`.`boleto` "
+            + f"WHERE compradetallada_idcompra = {idcompra};"
+        )
+        row = database.executeNonQueryRows(sql)
+        return row

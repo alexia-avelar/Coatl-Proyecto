@@ -23,25 +23,24 @@ from sala_view import (
 
 def goToSucursalesSubMenu():
     while True:
-        print("Sucursal")
-        print("Menu: ")
-        print("0 - Salir: ")
-        print("1 - Ver Sucursal: ")
+        print("Menú Sucursal")
+        print("0 - Regresar al menú principal: ")
+        print("1 - Ver Sucursales: ")
         print("2 - Agregar Sucursal: ")
         print("3 - Actualizar Sucursal: ")
         print("4 - Borrar Sucursal: ")
-        option = int(input("option: "))
+        optionSucursal = int(input("Seleccione una opción: "))
 
-        if option == 0:
-            print("Salir de sucursales..")
+        if optionSucursal == 0:
+            print("Regresando a menú principal...")
             break
-        if option == 1:
+        elif optionSucursal == 1:
             viewAllSucursales()
-        if option == 2:
+        elif optionSucursal == 2:
             addSucursal()
-        if option == 3:
+        elif optionSucursal == 3:
             updateSucursal()
-        if option == 4:
+        elif optionSucursal == 4:
             deleteSucursal()
 
 
@@ -49,47 +48,46 @@ def goToAsientosSubMenu():
     while True:
         print("Asientos")
         print("Menu: ")
-        print("0 - Salir: ")
+        print("0 - Regresar al menú principal: ")
         print("1 - Ver Asientos: ")
         print("2 - Agregar Asiento: ")
         print("3 - Actualizar Asiento: ")
         print("4 - Eliminar Asiento: ")
-        option = int(input("option: "))
+        optionAsiento = int(input("Seleccione una opción: "))
 
-        if option == 0:
-            print("Salir de selección de asientos")
+        if optionAsiento == 0:
+            print("Regresando a menú principal...")
             break
-        if option == 1:
+        elif optionAsiento == 1:
             viewAllAsientos()
-        if option == 2:
+        elif optionAsiento == 2:
             addAsiento()
-        if option == 3:
+        elif optionAsiento == 3:
             updateAsiento()
-        if option == 4:
+        elif optionAsiento == 4:
             deleteAsiento()
 
 
 def goToSalaSubMenu():
     while True:
-        print("Sala")
-        print("Menu: ")
-        print("0 - Salir: ")
-        print("1 - Ver Sala: ")
+        print("Menú Sala")
+        print("0 - Regresar al menú principal: ")
+        print("1 - Ver Salas: ")
         print("2 - Agregar Sala: ")
         print("3 - Actualizar Sala: ")
-        print("4 - Borrar Sala: ")
-        option = int(input("option: "))
+        print("4 - Eliminar Sala: ")
+        optionSala = int(input("Seleccione una opción: "))
 
-        if option == 0:
-            print("Salir de selección de sala:")
+        if optionSala == 0:
+            print("Regresando a menú principal...")
             break
-        if option == 1:
+        elif optionSala == 1:
             viewAllSalas()
-        if option == 2:
+        elif optionSala == 2:
             addSala()
-        if option == 3:
+        elif optionSala == 3:
             updateSala()
-        if option == 4:
+        elif optionSala == 4:
             deleteSala()
 
 
@@ -100,19 +98,19 @@ def goToPeliculasSubMenu():
         print("1 - Ver Peliculas: ")
         print("2 - Agregar Pelicula: ")
         print("3 - Actualizar Pelicula: ")
-        print("4 - Borrar Pelicula: ")
+        print("4 - Eliminar Pelicula: ")
         optionPelicula = int(input("Seleccione una opción: "))
 
         if optionPelicula == 0:
-            print("Regresando a menú principal")
+            print("Regresando a menú principal...")
             break
-        if optionPelicula == 1:
+        elif optionPelicula == 1:
             viewAllPeliculas()
-        if optionPelicula == 2:
+        elif optionPelicula == 2:
             addPelicula()
-        if optionPelicula == 3:
+        elif optionPelicula == 3:
             updatePelicula()
-        if optionPelicula == 4:
+        elif optionPelicula == 4:
             deletePelicula()
 
 
@@ -120,17 +118,41 @@ def goToBoletoSubMenu():
     while True:
         print("Menú Boletos: ")
         print("0 - Regresar a menú principal: ")
-        print("1 - Crear boleto (reserva): ")
-        print("2 -Ver todos los boletos: ")
+        print("1 - Ver reservas (boletos): ")
+        print("2 - Crear reserva (boleto): ")
         optionBoleto = int(input("Seleccione una opción: "))
 
         if optionBoleto == 0:
-            print("Regresando a menú principal")
+            print("Regresando a menú principal...")
             break
         elif optionBoleto == 1:
-            addBoleto()
-        elif optionBoleto == 2:
             viewAllBoletos()
+        elif optionBoleto == 2:
+            addBoleto()
+
+
+def goToCompraDetalladaSubMenu():
+    while True:
+        print("Menú Compra Detallada: ")
+        print("0 - Regresar a menú principal: ")
+        print("1 - Ver todas las compras: ")
+        print("2 - Crear compra: ")
+        print("3 - Actualizar una compra: ")
+        print("4 - Eliminar una compra: ")
+        optionCompra = int(input("Seleccione una opción: "))
+
+        if optionCompra == 0:
+            print("Regresando a menú principal...")
+            break
+        elif optionCompra == 1:
+            viewAllCompras()
+        elif optionCompra == 2:
+            addCompra()
+        elif optionCompra == 3:
+            updateCompra()
+        elif optionCompra == 4:
+            deleteCompra()
+            deleteBoleto()
 
 
 while True:
@@ -149,17 +171,17 @@ while True:
     if option == 0:
         print("Saliste de la aplicación")
         break
-    if option == 1:
+    elif option == 1:
         pass
-    if option == 2:
+    elif option == 2:
         goToSucursalesSubMenu()
-    if option == 3:
+    elif option == 3:
         goToPeliculasSubMenu()
-    if option == 4:
+    elif option == 4:
         goToSalaSubMenu()
-    if option == 5:
+    elif option == 5:
         goToAsientosSubMenu()
-    if option == 6:
+    elif option == 6:
         goToBoletoSubMenu()
-    if option == 7:
-        pass
+    elif option == 7:
+        goToCompraDetalladaSubMenu()

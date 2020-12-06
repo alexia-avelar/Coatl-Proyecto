@@ -29,7 +29,7 @@ def viewAllSucursales():
 
 
 def addSucursal():
-    print("Ingrese nueva sucursal")
+    print("Agregue nueva sucursal")
     nombre = input("Nombre sucursal:")
     departamento = input("Departamento:")
     direccion = input("Direccion:")
@@ -50,26 +50,26 @@ def updateSucursal():
         print(f"Nombre anterior: {oldSucursal['nombre']}")
         nombre = input("Ingrese el nuevo nombre de la película: ")
     else:
-        nombre = oldSucursal["nombre"]
+        nombre = oldSucursal["Ingrese el nuevo nombre:"]
 
     update = int(input("¿Desea actualizar el departamento? Si - 1 No - 0 "))
     if update == 1:
         print(f"Departamento anterior: {oldSucursal['departamento']}")
-        departamento = input("departamento: ")
+        departamento = input("Ingrese el nuevo departamento: ")
     else:
         departamento = oldSucursal.departamento
 
     update = int(input("¿Desea actualizar la dirección? Si - 1 No - 0 "))
     if update == 1:
         print(f"Direccion anterior: {oldSucursal['direccion']}")
-        direccion = input("direccion: ")
+        direccion = input("Ingrese la nueva dirección: ")
     else:
         direccion = oldSucursal["direccion"]
 
     update = int(input("¿Desea actualizar el id de usuario? Si - 1 No - 0 "))
     if update == 1:
         print(f"Usuario anterior: {oldSucursal['usuario_idusuario']}")
-        usuario_idusuario = int(input("idusuario: "))
+        usuario_idusuario = int(input("Ingrese el nuevo id de usuario: "))
     else:
         usuario_idusuario = oldSucursal["usuario_idusuario"]
 

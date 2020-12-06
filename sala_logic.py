@@ -11,36 +11,40 @@ class SalaLogic(Logic):
         salaList = super().getAllRows(self.tableName)
         salaObjList = []
         for element in salaList:
-            newSala = self.createSalaObj(element)
-            salaObjList.append(newSala)
+            salaObjList.append(element)
         return salaObjList
 
-    def createSalaObj(self, idsala, capacidad, tipo):
-        salaObj = SalaObj(id, capacidad, tipo)
-        return salaObj
+    def createSalaObj(self, capacidad, tipo):
+        salaDict = dict(capacidad=capacidad, tipo=tipo)
+        return salaDict
 
-    def createSalabj(self, salaDict):
-        salaObj = SalaObj(salaDict["capacidad"], salaDict["tipo"], salaDict["idsala"])
-        return salaObj
-
-    def insertAsiento(self, capacidad, tipo):
+    def insertSala(self, capacidad, tipo):
         database = self.database
         sql = (
             f"INSERT INTO `dbcine`.`sala`(`idsala`,`capacidad`,`tipo`)"
-            + f"VALUES(0,'{capacidad}','{tipo});"
+            + f"VALUES(0,{capacidad},'{tipo}');"
         )
-        rows = database.executeNonQueryRows(sql)
-        return rows
+        row = database.executeNonQueryRows(sql)
+        return row
 
     def updateSalaById(self, idsala, capacidad, tipo):
         database = self.database
         sql = (
             "UPDATE `dbcine`.`sala` "
-            + f"SET `sala` = '{capacidad}','{tipo}'"
-            + f"WHERE `idsala` = {id};"
+            + f"SET `capacidad` = {capacidad}, `tipo` = '{tipo}'"
+            + f"WHERE `idsala` = {idsala};"
         )
-        rows = database.executeNonQueryRows(sql)
-        return rows
+        row = database.executeNonQueryRows(sql)
+        return row
 
-    def deleteAsientoById(self, idsala):
-        super().deleteRowById(id, self.tableName)
+    def getSalaById(self, idsala):
+        database = self.database
+        sql = "SELECT * FROM `dbcine`.`sala` " + f"where idsala ={idsala};"
+        salaDict = database.executeQueryOneRow(sql)
+        return salaDict
+
+    def deleteSalaById(self, idsala):
+        database = self.database
+        sql = "DELETE FROM `dbcine`.`sala` " + f"WHERE idsala = {idsala};"
+        row = database.executeNonQueryRows(sql)
+        return row

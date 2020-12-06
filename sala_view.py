@@ -7,40 +7,48 @@ logic = SalaLogic()
 def viewAllSalas():
     salasObjList = logic.getAllSalas()
     table = PrettyTable()
-    table.field_names = ["idasala", "capacidad", "tipo"]
+    table.field_names = ["Id", "Capacidad", "Tipo"]
 
     for sala in salasObjList:
-        table.add_row([sala.idsala, sala.capacidad, sala.tipo])
+        table.add_row([sala["idsala"], sala["capacidad"], sala["tipo"]])
     print(table)
 
 
 def addSala():
-    capacidad = input("capacidad: ")
-    tipo = input("tipo:")
+    print("Añada una nueva sala")
+    capacidad = input("Capacidad: ")
+    tipo = input("Tipo:")
 
     logic.createSalaObj(capacidad, tipo)
     logic.insertSala(capacidad, tipo)
-    logic.getAllSalas()
+    print("Sala creada con éxito")
 
 
 def updateSala():
-    print("Actualización de sala")
-    id = int(input("Id de sala a actualizar: "))
-    sala = logic.updateSalaById(id)
+    print("Actualice la información de la sala")
+    idsala = int(input("Id de sala a actualizar: "))
+    oldSala = logic.getSalaById(idsala)
 
-    update = int(
-        input(
-            "¿Desea actualizar el número sala? Presione 1 para actualizar o 2 para conservar la sala: "
-        )
-    )
+    update = int(input("¿Desea actualizar la capacidad de sala? Si - 1  No - 0: "))
     if update == 1:
-        print(f"Sala anterior: {sala['tipo']}")
-        newNumber = input("Escriba el Id de la nueva sala: ")
+        print(f"Capacidad anterior: {oldSala['capacidad']}")
+        capacidad = int(input("Ingrese la nueva capacidad de sala: "))
     else:
-        newNumber = sala["tipo"]
+        capacidad = oldSala["capacidad"]
+
+    update = int(input("¿Desea actualizar el tipo de sala? Si - 1  No - 0: "))
+    if update == 1:
+        print(f"Tipo anterior: {oldSala['tipo']}")
+        tipo = input("Ingrese el nuevo tipo de sala: ")
+    else:
+        tipo = oldSala["tipo"]
+
+    sala = logic.updateSalaById(idsala, capacidad, tipo)
+    print("La información de la sala ha sido actualizada")
 
 
 def deleteSala():
     print("Eliminar sala")
-    id = int(input("Id de sala a eliminar: "))
-    logic.deleteSalaById(id)
+    idsala = int(input("Id de sala a eliminar: "))
+    logic.deleteSalaById(idsala)
+    print("Sala eliminada con éxito")

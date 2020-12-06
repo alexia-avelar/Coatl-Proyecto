@@ -11,23 +11,16 @@ class PeliculasLogic(Logic):
         peliculasList = super().getAllRows(self.tableName)
         peliculasObjList = []
         for element in peliculasList:
-            newPeliculas = self.createPeliculasObj(element)
-            peliculasObjList.append(newPeliculas)
+            peliculasObjList.append(element)
+        #     newPeliculas = self.createPeliculasObj(element)
+        #     peliculasObjList.append(newPeliculas)
         return peliculasObjList
 
-    def createPeliculasObj(self, idpeliculas, titulo, descripcion, fecha, hora):
-        peliculasObj = PeliculasObj(id, titulo, descripcion, fecha, hora)
-        return peliculasObj
-
-    def createPeliculasObj(self, peliculasDict):
-        peliculasObj = PeliculasObj(
-            peliculasDict["titulo"],
-            peliculasDict["descripcion"],
-            peliculasDict["fecha"],
-            peliculasDict["hora"],
-            peliculasDict["idpeliculas"],
+    def createPeliculasObj(self, titulo, descripcion, fecha, hora):
+        peliculasDict = dict(
+            titulo=titulo, descripcion=descripcion, fecha=fecha, hora=hora
         )
-        return peliculasObj
+        return peliculasDict
 
     def insertPeliculas(self, titulo, descripcion, fecha, hora):
         database = self.database
@@ -35,18 +28,31 @@ class PeliculasLogic(Logic):
             f"INSERT INTO `dbcine`.`peliculas`(`idpeliculas`,`titulo`,`descripcion`,`fecha`, `hora`) "
             + f"VALUES(0,'{titulo}','{descripcion}','{fecha}','{hora}');"
         )
-        rows = database.executeNonQueryRows(sql)
-        return rows
+        row = database.executeNonQueryRows(sql)
+        return row
 
-    def updatePeliculasById(self, titulo, descripcion, fecha, hora):
+    def updatePeliculasById(self, idpeliculas, titulo, descripcion, fecha, hora):
         database = self.database
         sql = (
             "UPDATE `dbcine`.`peliculas` "
             + f"SET `titulo` = '{titulo}', `descripcion` = '{descripcion}', `fecha` = '{fecha}', `fecha` = '{hora}' "
-            + f"WHERE `idpeliculas` = {id};"
+            + f"WHERE `idpeliculas` = {idpeliculas};"
         )
-        rows = database.executeNonQueryRows(sql)
-        return rows
+        row = database.executeNonQueryRows(sql)
+        return row
+
+    def getPeliculaById(self, idpeliculas):
+        database = self.database
+        sql = (
+            "SELECT * FROM `dbcine`.`peliculas` " + f"where idpeliculas ={idpeliculas};"
+        )
+        peliculasDict = database.executeQueryOneRow(sql)
+        return peliculasDict
 
     def deletePeliculasById(self, idpeliculas):
-        super().deleteRowById(id, self.tableName)
+        database = self.database
+        sql = (
+            "DELETE FROM `dbcine`.`peliculas` " + f"WHERE idpeliculas = {idpeliculas};"
+        )
+        row = database.executeNonQueryRows(sql)
+        return row

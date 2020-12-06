@@ -11,37 +11,27 @@ class CompraDetLogic(Logic):
         compraList = super().getAllRows(self.tableName)
         compraObjList = []
         for element in compraList:
-            newCompra = self.createCompraDetObj(element)
-            compraObjList.append(newCompra)
+            compraObjList.append(element)
         return compraObjList
 
-    def createCompraDetObj(
-        self, idcompra, tipo, precios_unitarios, cantidad, monto_total, estado
-    ):
-        compraObj = CompraDetObj(
-            id, tipo, precios_unitarios, cantidad, monto_total, estado
+    def createCompraObj(self, tipo, precios_unitarios, cantidad, monto_total, estado):
+        compraDict = dict(
+            tipo=tipo,
+            precios_unitarios=precios_unitarios,
+            cantidad=cantidad,
+            monto_total=monto_total,
+            estado=estado,
         )
-        return compraObj
-
-    def createCompraObj(self, compraDict):
-        compraObj = CompraDetObj(
-            compraDict["tipo"],
-            compraDict["precios_unitarios"],
-            compraDict["cantidad"],
-            compraDict["monto_total"],
-            compraDict["idcompra"],
-            compraDict["estado"],
-        )
-        return compraObj
+        return compraDict
 
     def insertCompra(self, tipo, precios_unitarios, cantidad, monto_total, estado):
         database = self.database
         sql = (
             f"INSERT INTO `dbcine`.`compradetallada`(`idcompra`,`tipo`,`precios_unitarios`,`cantidad`,`monto_total`,`estado`) "
-            + f"VALUES(0,'{tipo}','{precios_unitarios}','{cantidad}','{monto_total}'',{estado}');"
+            + f"VALUES(0,'{tipo}','{precios_unitarios}',{cantidad},'{monto_total}'',{estado}');"
         )
-        rows = database.executeNonQueryRows(sql)
-        return rows
+        row = database.executeNonQueryRows(sql)
+        return row
 
     def updateCompraById(
         self, idcompra, tipo, precios_unitarios, cantidad, monto_total, estado
@@ -49,11 +39,24 @@ class CompraDetLogic(Logic):
         database = self.database
         sql = (
             "UPDATE `dbcine`.`compradetallada` "
-            + f"SET `compradetallada` = '{tipo}','{precios_unitarios}','{cantidad}','{monto_total}',{estado}' "
-            + f"WHERE `idcompra` = {id};"
+            + f"SET `tipo` = '{tipo}', `precios_unitarios` = '{precios_unitarios}', `cantidad` = {cantidad}, `monto_total` = '{monto_total}', `estado` = '{estado}' "
+            + f"WHERE `idcompra` = {idcompra};"
         )
-        rows = database.executeNonQueryRows(sql)
-        return rows
+        row = database.executeNonQueryRows(sql)
+        return row
+
+    def getCompraById(self, idcompra):
+        database = self.database
+        sql = (
+            "SELECT * FROM `dbcine`.`compradetallada` " + f"where idcompra ={idcompra};"
+        )
+        compraDict = database.executeQueryOneRow(sql)
+        return compraDict
 
     def deleteCompraById(self, idcompra):
-        super().deleteRowById(id, self.tableName)
+        database = self.database
+        sql = (
+            "DELETE FROM `dbcine`.`compradetallada` " + f"WHERE idcompra = {idcompra};"
+        )
+        row = database.executeNonQueryRows(sql)
+        return row

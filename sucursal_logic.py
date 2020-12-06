@@ -47,7 +47,7 @@ class SucursalLogic(Logic):
         database = self.database
         sql = (
             f"INSERT INTO `dbcine`.`sucursal`(`idsucursal`,`nombre`,`departamento`,`direccion`, `usuario_idusuario`) "
-            + f"VALUES(0,'{nombre}','{departamento}','{direccion}','{usuario_idusuario}');"
+            + f"VALUES(0,'{nombre}','{departamento}','{direccion}',{usuario_idusuario});"
         )
         row = database.executeNonQueryRows(sql)
         return row
